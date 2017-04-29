@@ -5,8 +5,13 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D973F5F8-1E39-4F8F-A11C-0335004FB360}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		BuildActions.target = BuildActions.target
 		BuildTargets.target = BuildTargets.target
+		LICENSE = LICENSE
+		README.md = README.md
+		README_Mapper.md = README_Mapper.md
+		README_ServiceLocator.md = README_ServiceLocator.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{9E8BC6A9-F053-4702-B7D9-07202907F2DC}"

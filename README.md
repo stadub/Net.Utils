@@ -1,4 +1,86 @@
-WinClipboardApi
-===============
 
-Just another clipboard winapi wrapper (Can provide acess to clipboard from windows services)
+Spread of classes, used in different projects as a shared component.
+
+* [Utils.net](#utilities) - Helper classes/extensions
+* [ServiceLocator/ObjectMapper](#servicelocatormapper) - service locator implementation with type mapping capabilities.
+
+[Service locator](../README_ServiceLocator.md)
+[Service locator](../README_Mapper.md)
+
+## *Utilities* ##
+
+### *Debugger* - simple Assert debug wrapper.
+___
+### *Enumerable.ForEach* - Foreach implementation for IEnumeareble<T> collection
+```C#
+            var resultList= new List<int>();
+            var items=Enumerable.Range(0, 10).ToList();
+            items.ForEach(x=>resultList.Add(x));
+```
+___
+### *String.SplitString* - Optimized function to split string into two parts.
+```C#
+            var text = "1|2";
+            var data = text.SplitString('|');
+```
+___
+### *ExceptionHelpers*
+####     GetLastWin32Exception - WinAPI wrapper function to receive latest Win32 error
+
+####     GuardZeroHandle - Check if pointer handle is euqal zerro
+___
+### *EventArgs<_T_>* - generic event args class.
+___
+### *OperationResult<_T_>* - Result object.
+```C#
+    public interface IOperationResult
+    {
+        bool Success { get; }
+        Object Value { get; }
+        Exception Error { get; }
+    }
+    public interface IOperationResult<out T> : IOperationResult
+    {
+        bool Success { get; }
+        T Value { get; }
+        Exception Error { get; }
+    }
+```
+___
+
+## Utils.Wpf
+
+VisibilityConverter - convert bool to control visibility state
+
+
+### *RelayCommand* - ICommand implementation
+```C#
+ReloadClipboardContent = new RelayCommand(()=>Action(), () => IsAllowed);
+```
+
+### *ViewModelBase* - simple ViewModel base implementation
+
+
+### *ViewModelLocatorBase* - ViewModel locator base class. 
+Intended to split design time and prod ViewMdoles to different assemples.
+
+Example usage:
+```C#
+ public class ViewModelLocator : ViewModelLocatorBase
+{
+    public ViewModelLocator(ServiceLocator container): base(container)
+    {
+        Register<MainWindow, MainWindowViewModel>();
+    }
+
+    public MainWindowViewModel MainPage
+    {
+        get { return base.Resolve<MainWindow, MainWindowViewModel>(); }
+    }
+	 
+	public SecondWindowViewModel SecondPage
+    {
+        get { return base.Resolve<SecondWindow, SecondWindowViewModel>(); }
+    }
+}
+```
