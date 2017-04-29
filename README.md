@@ -1,11 +1,10 @@
 
 Spread of classes, used in different projects as a shared component.
 
-* [Utils.net](#utilities) - Helper classes/extensions
-* [ServiceLocator/ObjectMapper](#servicelocatormapper) - service locator implementation with type mapping capabilities.
+## *[Service locator](../../README_ServiceLocator.md)* service locator implementation with type mapping capabilities. ##
+## *[Object Mapper](../README_Mapper.md)* -service locator implementation with type mapping capabilities. ##
 
-[Service locator](../README_ServiceLocator.md)
-[Service locator](../README_Mapper.md)
+## *[Utils.net](#utilities)* - Helper classes/extensions ##
 
 ## *Utilities* ##
 
