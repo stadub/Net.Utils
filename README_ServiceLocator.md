@@ -1,41 +1,40 @@
-##Service locator
+## Service locator
 
 Singleton registration
-````C#
-var locator = new ServiceLocator();
-var list = new List<int>();
-locator.RegisterInstance<IList<int>,List<int>>(list);
-
-var reslut = locator.Resolve<IList<int>>();
+```C#
+    var locator = new ServiceLocator();
+    var list = new List<int>();
+    locator.RegisterInstance<IList<int>,List<int>>(list);
+    
+    var reslut = locator.Resolve<IList<int>>();
 ```
 
 Type registration
-````C#
-            var locator = new ServiceLocator();
-            locator.RegisterType<ITestClass, TestClass>();
+```C#
+    var locator = new ServiceLocator();
+    locator.RegisterType<ITestClass, TestClass>();
 
-            var reslut = locator.Resolve<ITestClass>();
+    var reslut = locator.Resolve<ITestClass>();
 ```
 
 Constructor usage samples
 
 Simple constructor sample
-````C#
+```C#
 
     class ClassWDefaultCtor : ITestClass
     {
         public ClassWDefaultCtor() { }
     }
-
+    
     var locator = new ServiceLocator();
     locator.RegisterType<ITestClass, ClassWDefaultCtor>(); 
-
+    
     var reslut = locator.Resolve<ITestClass>();
-
 ```
 
 Constructor with arguments
-````C#
+```C#
     class TestClassWCtor : ITestClass
     {
         public TestClassWCtor(int a=2) { }
@@ -48,7 +47,6 @@ Constructor with arguments
 
 Several constructors with arguments 
 ```C#
-
     class ClassWUseCtorAttribute : ITestClass
     {
         public ClassWUseCtorAttribute(object a) { }
@@ -59,7 +57,7 @@ Several constructors with arguments
     }
 
     var locator = new ServiceLocator();
-	locator.RegisterType<ITestClass, ClassWUseCtorAttribute>();//will use constructor marked as default
+    locator.RegisterType<ITestClass, ClassWUseCtorAttribute>();//will use constructor marked as default
 
     var reslut = locator.Resolve<ITestClass>();
 ```
@@ -71,7 +69,6 @@ Constructor arguments can be injected
         public object b;
         public ClassWSimpleInjectionCtor([InjectValue("2")]int a){ b = a; }
     }
-
 
     var locator = new ServiceLocator();
     locator.RegisterType<ITestClass, ClassWSimpleInjectionCtor>();
@@ -109,7 +106,7 @@ Generic arguments injection into constructor with `ShoudlInject` arguments
     var reslut = locator.Resolve<ITestClass>();
 ```
 
-Properties injection
+### Properties injection
 
 Simple properties injection
 ```C#
@@ -193,7 +190,7 @@ Destroy IDisposable types on `ServiceLocator` destruction
         
         public void Dispose()
         {
- 	        Disposed=true;
+            Disposed=true;
         }
     }
 
@@ -217,7 +214,7 @@ Type initalizers support
         
         public void Dispose()
         {
- 	        Disposed=true;
+            Disposed=true;
         }
     }
 
