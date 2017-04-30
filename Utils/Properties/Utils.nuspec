@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>SharedCode.net</id>
+    <version>0.8.0</version>
+    <authors>Dima Stadub</authors>
+    <owners>Dima Stadub</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/stadub/Net.Utils</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/stadub/Net.Utils/master/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Spread of classes, used in different projects as a shared component.
+      Service locator - service locator implementation with type mapping capabilities.
+      Object Mapper -service locator implementation with type mapping capabilities.
+    </description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>IoC Helpers Utils Mapper ServiceLocator</tags>
+  </metadata>
+  <files>
+    <file src="bin\lib\*.*"
+          target="build" />
+  </files>
+</package>

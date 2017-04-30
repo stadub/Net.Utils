@@ -1,11 +1,67 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
-	<Target Name="CopyWatcherOut" BeforeTargets="AfterBuild">
-		<ItemGroup>
-			<UtilOut Include="$(SolutionDir)$(Configuration)\*.*"/>
-		</ItemGroup>
-		<Copy
-			SourceFiles="@(UtilOut)"
-			DestinationFolder="$(OutputPath)"/>
-		<Message Text='Files "@(UtilOut)" copied to "$(OutputPath)"' Importance="High"/>
-	</Target>
+  <Target Name="SetLibDir" BeforeTargets="AfterBuild">
+    <PropertyGroup Condition="'$(_LibOutDir)' == ''">
+      <_LibOutDir>$(MSBuildProjectDirectory)\bin\lib</_LibOutDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <_LibSourceOut Include="$(MSBuildProjectDirectory)\$(OutputPath)\*.dll"/>
+    </ItemGroup>
+    <Message Text='Lib dir properties $(_LibOutDir_LibOutDir)' Importance="low"/>
+
+  </Target>
+  
+  <Target Name="CleanLibDir" BeforeTargets="AfterBuild" DependsOnTargets="SetLibDir">
+    <Message Text='Clean "$(_LibOutDir)"' Importance="High"/>
+    <ItemGroup>
+      <LibOutFiles Include="$(_LibOutDir)\*.*"/>
+    </ItemGroup>
+    <Delete Files="@(LibOutFiles)" Condition="'$(_LibOutDir)' != ''"/>
+    <RemoveDir Directories="$(_LibOutDir)" Condition="'$(_LibOutDir)' != ''"/>
+  </Target>
+  
+  <Target Name="CopyOutToLib" BeforeTargets="AfterBuild" DependsOnTargets="CleanLibDir">
+    <Message Text='Copy files to Lib folder' Importance="High"/>
+    <Copy
+      SourceFiles="@(_LibSourceOut)"
+      DestinationFolder="$(_LibOutDir)"/>
+    <Message Text='"@(_LibSourceOut)" => "$(_LibOutDir)"' Importance="High"/>
+  </Target>
+  
+  <Target Name="CopyLicense" BeforeTargets="AfterBuild"  DependsOnTargets="CleanLibDir">
+    <ItemGroup>
+      <License Include="$(MSBuildProjectDirectory)\..\LICENSE"/>
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(License)"
+      DestinationFolder="$(_LibOutDir)"/>
+    <Message Text='"LICENSE" copied  => "$(_LibOutDir)"' Importance="High"/>
+  </Target>
+
+  <Target Name="NugetPack" DependsOnTargets="SetNugetDir;CopyLicense;CopyOutToLib" BeforeTargets="AfterBuild" >
+    <Message Text='"Nuget $(NuspecPath)' Importance="High"/>
+
+    <!-- package with NuGet -->
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="@(NuGetExePath) pack $(NuspecPath) -BasePath $(MSBuildProjectDirectory) -OutputDirectory $(_NugetOutDir) -Symbols -Prop Configuration=$(Configuration)" />
+  </Target>
+
+  <Target Name="SetNugetDir" BeforeTargets="AfterBuild"  DependsOnTargets="SetLibDir">
+    <PropertyGroup Condition="'$(_NugetOutDir)' == ''">
+      <_NugetOutDir>$(MSBuildProjectDirectory)\bin\nuget</_NugetOutDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(_NugetSourceDir)' == ''">
+      <_NugetSourceDir>$(_LibOutDir)</_NugetSourceDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(NuspecPath)' == ''">
+      <NuspecPath>$(MSBuildProjectDirectory)\Properties\$(ProjectName).nuspec</NuspecPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <NuGetExePath Include="$(MSBuildProjectDirectory)\..\packages\NuGet.CommandLine.*\**\*.exe"/>
+    </ItemGroup>
+
+    <Message Text='Nuget properties "Nuget $(_NugetOutDir) $(_NugetSourceDir) $(NuspecPath) @(NuGetExePath)' Importance="low"/>
+    <Message Text='Nuget Path @(NuGetExePath)' Importance="low"/>
+
+  </Target>
+
+
 </Project>
