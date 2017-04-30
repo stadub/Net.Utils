@@ -139,7 +139,7 @@ namespace Utils.TypeMapping.TypeBuilders
         {
             //work only with public Not special and not Index properties
             IEnumerable<PropertyInfo> props = type
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .GetTypeInfo().DeclaredProperties
                 .Where(x => !x.IsSpecialName && x.GetIndexParameters().Length == 0);
             return props;
         }
@@ -181,7 +181,7 @@ namespace Utils.TypeMapping.TypeBuilders
 
         protected PropertyInfo[] GetDestTypeProperties()
         {
-            return DestType.GetProperties();
+            return DestType.GetTypeInfo().DeclaredProperties.ToArray();
         }
 
         protected ISourceInfo ResolvePropertyInfo(IPropertyMappingInfo propertyInfo)

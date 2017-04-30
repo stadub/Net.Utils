@@ -18,14 +18,12 @@ namespace Utils.TypeMapping.ValueResolvers
 
             if (attribute == null || attribute.Value == null)
             {
-                Logger.LogError("InjectValueResolver::ResolveSourceValue", "Mappling value is not set");
-                return null;
+                throw new ArgumentException( "Mappling value is not set");
             }
 
             if (attribute.Value is string && string.IsNullOrWhiteSpace(attribute.Value.ToString()))
             {
-                Logger.LogError("InjectValueResolver::ResolveSourceValue", "Mappling value cannot be empty");
-                return null;
+                throw new ArgumentException("Mappling value cannot be empty");
             }
 
             var convertedValue = Convert.ChangeType(attribute.Value, memberInfo.Type);

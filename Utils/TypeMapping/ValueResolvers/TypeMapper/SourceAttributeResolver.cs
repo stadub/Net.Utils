@@ -13,8 +13,6 @@ namespace Utils.TypeMapping.ValueResolvers
 
             var srcPropMap =
                 memberInfo.Attributes.FirstOrDefault(x => x is MapSourcePropertyAttribute) as MapSourcePropertyAttribute;
-            object propValue = null;
-            MappingResult result = MappingResult.NotResolved;
 
             if (srcPropMap.Name != null && srcPropMap.Path != null)
                 throw new PropertyMappingException(memberInfo.Type.FullName, memberInfo.Name,

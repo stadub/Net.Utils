@@ -96,8 +96,7 @@ namespace Utils.TypeMapping.ValueResolvers
         {
             if (ValueSetter == null)
             {
-                Logger.LogError("Value setter is null");
-                return;
+                throw  new  ArgumentException("Value setter is null");
             }
                 
             ValueSetter(value);

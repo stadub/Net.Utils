@@ -1,111 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E8BC6A9-F053-4702-B7D9-07202907F2DC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Utils</RootNamespace>
-    <AssemblyName>Utils</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <Version>0.8.0</Version>
+    <Authors>Dima Stadub</Authors>
+    <Company>Dima Stadub</Company>
+    <Description>Spread of classes, used in different projects as a shared component.
+      Service locator - service locator implementation with type mapping capabilities.
+      Object Mapper -service locator implementation with type mapping capabilities.</Description>
+    <PackageLicenseUrl>https://opensource.org/licenses/BSD-3-Clause</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/stadub/Net.Utils</PackageProjectUrl>
+    <Copyright>(C) Dima Stadub</Copyright>
+    <PackageIconUrl>https://raw.githubusercontent.com/stadub/Net.Utils/master/favicon.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/stadub/Net.Utils</RepositoryUrl>
+    <PackageTags>IoC Helpers Utils Mapper ServiceLocator</PackageTags>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Helpers\Debugger.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="TypeMapping\PropertyMappers\IgnorePropertyMapper.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\StringFormatter.cs" />
-    <Compile Include="TypeMapping\DictionaryMapper.cs" />
-    <Compile Include="TypeMapping\PropertyMappers\InjectTypeMapper.cs" />
-    <Compile Include="TypeMapping\MappingInfo\SourceInfo.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\DictionaryMappingTypeBuilder.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\MappingTypeBuilder.cs" />
-    <Compile Include="TypeMapping\MappingInfo\Interfaces.cs" />
-    <Compile Include="TypeMapping\MappingInfo\LocatorResolutionInfo.cs" />
-    <Compile Include="TypeMapping\MappingInfo\TypeMappingInfo.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\StringFormatBuilder.cs" />
-    <Compile Include="TypeMapping\TypeMappers\ToStringMapper.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\ServiceLocator\LocatorRegistrationInfoResolver.cs" />
-    <Compile Include="TypeMapping\MappingInfo\PropertyRegistrationInfo.cs" />
-    <Compile Include="TypeMapping\PropertyMappers\InitPropertyMapper.cs" />
-    <Compile Include="TypeMapping\PropertyMappers\PropertyMapper.cs" />
-    <Compile Include="TypeMapping\BuilderUtils.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\TypeBuilerContext.cs" />
-    <Compile Include="TypeMapping\TypeMappers\FormatedStringMapper.cs" />
-    <Compile Include="TypeMapping\TypeMappers\MappingFunc.cs" />
-    <Compile Include="TypeMapping\TypeMappers\ArrayTypeMapper.cs" />
-    <Compile Include="Helpers\AsyncResultBase.cs" />
-    <Compile Include="TypeMapping\TypeMappers\ConvertTypeMapper.cs" />
-    <Compile Include="Helpers\Enumerable.cs" />
-    <Compile Include="Helpers\ExceptionHelpers.cs" />
-    <Compile Include="Helpers\GenericEventArgs.cs" />
-    <Compile Include="Helpers\OperationResult.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\LocatorTypeBuilder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceLocator.cs" />
-    <Compile Include="TypeMapping\MappingInfo\LocatorRegistrationInfo.cs" />
-    <Compile Include="TypeMapping\TypeBuilders\TypeBuilder.cs" />
-    <Compile Include="Helpers\Strings.cs" />
-    <Compile Include="TypeHelpers.cs" />
-    <Compile Include="TypeMapping\TypeMapper.cs" />
-    <Compile Include="TypeMapping\TypeMapperRegistry.cs" />
-    <Compile Include="TypeMapping\Attributes.cs" />
-    <Compile Include="TypeMapping\Interfaces.cs" />
-    <Compile Include="TypeMapping\TypeMappers\TypeMapperBase.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\PropertyValueResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\ServiceLocator\LocatorValueInjector.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\BuilderMemberInfo.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\OptionalParameterResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\TypeMapper\SourceAttributeResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\SourceMappingResolverBase.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\TypeMapper\SourceKeyValPairResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\TypeMapper\SourcePropertyResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\InjectValueResolver.cs" />
-    <Compile Include="TypeMapping\ValueResolvers\SourceTypeInjector.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\Utils.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="favicon.ico" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Import Project="$(SolutionDir)\BuildTargets.target" />
-  <Import Project="$(SolutionDir)\BuildActions.target" />
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
+  </ItemGroup>
+
 </Project>

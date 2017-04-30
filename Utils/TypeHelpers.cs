@@ -14,7 +14,7 @@ namespace Utils
         public static object GetDefault(Type type)
         {
             //http://stackoverflow.com/questions/325426/programmatic-equivalent-of-defaulttype
-            if (type.IsValueType)
+            if (type.GetTypeInfo().IsValueType)
             {
                 return Activator.CreateInstance(type);
             }
@@ -24,24 +24,26 @@ namespace Utils
         public static ConstructorInfo TryGetConstructor(Type type)
         {
             //enumerating only public ctors
-            var ctors = type.GetConstructors();
+            var ctors = type.GetTypeInfo().DeclaredConstructors.ToList();
 
             //search for constructor marked as [UseConstructor]
-            foreach (var ctor in ctors)
+            for (var index = 0; index < ctors.Count; index++)
             {
+                var ctor = ctors[index];
                 var attributes = ctor.GetCustomAttributes(typeof(UseConstructorAttribute), false);
                 if (attributes.Any())
                     return ctor;
             }
             //try to find default constructor
-            foreach (var ctor in ctors)
+            for (var index = 0; index < ctors.Count; index++)
             {
+                var ctor = ctors[index];
                 var args = ctor.GetParameters();
                 if (args.Length == 0)
                     return ctor;
             }
             //try to use first public
-            if (ctors.Length > 0)
+            if (ctors.Count > 0)
                 return ctors[0];
             return null;
         }
@@ -127,7 +129,11 @@ namespace Utils
             }
         }
 
-
+        public static bool IsAssignableFrom(this Type destType, object source)
+        {
+            if (source.GetType() == destType || source.GetType().GetTypeInfo().IsSubclassOf(destType)) return true;
+            return false;
+        }
     }
     public class FormatedAttribute : Attribute
     {

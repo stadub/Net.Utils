@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Utils.TypeMapping.TypeMappers;
 
 namespace Utils.TypeMapping
@@ -31,7 +32,7 @@ namespace Utils.TypeMapping
 
         protected virtual DictionaryMappingTypeBuilder<TSource, TDest> CreateTypeBuilder()
         {
-            if (DestType.IsGenericType || DestType.IsGenericType)
+            if (DestType.GetTypeInfo().IsGenericType || DestType.GetTypeInfo().IsGenericType)
                 throw new TypeNotSupportedException(DestType.FullName, "Generic types are not supported");
 
             var mapper = new DictionaryMappingTypeBuilder<TSource, TDest>();

@@ -31,12 +31,12 @@ namespace Utils.TypeMapping.ValueResolvers
 
         private static bool NameIsSame(string propName, string name)
         {
-            return propName.Equals(name, StringComparison.InvariantCultureIgnoreCase);
+            return propName.Equals(name, StringComparison.OrdinalIgnoreCase);
         }
 
         protected static List<PropertyInfo> EnumerateSourceProperties(Type @type)
         {
-            return @type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            return @type.GetTypeInfo().DeclaredProperties
                 .Where(x => x.CanRead)
                 .ToList();
         }

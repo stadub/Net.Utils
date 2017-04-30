@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Utils.TypeMapping.MappingInfo;
 using Utils.TypeMapping.TypeMappers;
 using Utils.TypeMapping.ValueResolvers.ServiceLocator;
@@ -81,7 +82,7 @@ namespace Utils
 
         protected virtual MappingTypeBuilder<TSource, TDest> CreateTypeBuilder()
         {
-            if (DestType.IsGenericType || DestType.IsGenericType)
+            if (DestType.GetTypeInfo().IsGenericType || DestType.GetTypeInfo().IsGenericType)
                 throw new TypeNotSupportedException(DestType.FullName, "Generic types are not supported");
 
             var mapper = new MappingTypeBuilder<TSource, TDest>(locator, registrationInfo);

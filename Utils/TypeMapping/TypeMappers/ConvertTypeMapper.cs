@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Utils.TypeMapping.TypeMappers
 {
@@ -34,7 +35,7 @@ namespace Utils.TypeMapping.TypeMappers
             if (source == null)
                 return OperationResult.Failed();
 
-            if (destType.IsInstanceOfType(source)) return OperationResult.Successful(source);
+            if (destType.IsAssignableFrom(source)) return OperationResult.Successful(source);
 
             try
             {
@@ -57,7 +58,9 @@ namespace Utils.TypeMapping.TypeMappers
 
         public bool CanMap(object source, Type destType)
         {
-            if (destType.IsInstanceOfType(source)) return true;
+
+            if (destType.IsAssignableFrom(source)) return true;
+
             if(source is IConvertible) return true;
             return TypeDescriptor.GetConverter(source.GetType()).CanConvertTo(destType);
         }

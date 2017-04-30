@@ -16,7 +16,7 @@ namespace Utils.TypeMapping.TypeBuilders
             var resolvedProperties = Context.ResolvedProperties;
 
             //resolving injection properties, which wheren't registered in the "PropertyInjections"
-            var propsToInjectValue = Context.SourceType.GetProperties()
+            var propsToInjectValue = Context.SourceType.GetRuntimeProperties()
                 .Select(Context.GetPropertyMappingInfo)
                 .Where(x => !resolvedProperties.Contains(x)).ToArray();
 

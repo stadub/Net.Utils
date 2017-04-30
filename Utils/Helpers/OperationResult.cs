@@ -12,9 +12,9 @@ namespace Utils
 
     public interface IOperationResult<out T> : IOperationResult
     {
-        bool Success { get; }
-        T Value { get; }
-        Exception Error { get; }
+        new bool Success { get; }
+        new T Value { get; }
+        new Exception Error { get; }
     }
 
 
@@ -63,7 +63,7 @@ namespace Utils
         }
 
         [DebuggerStepThrough]
-        public static OperationResult Successful(object value)
+        public new static OperationResult Successful(object value)
         {
             return new OperationResult(true, value);
         }

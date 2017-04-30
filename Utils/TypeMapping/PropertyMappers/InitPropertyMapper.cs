@@ -52,7 +52,6 @@ namespace Utils.TypeMapping.PropertyMappers
                 }
                 return false;
             }
-            catch (TargetException ex) { exception = ex; }
             catch (ArgumentException ex) { exception = ex; }
             catch (TargetInvocationException ex) { exception = ex; }
             catch (TargetParameterCountException ex) { exception = ex; }
@@ -75,7 +74,7 @@ namespace Utils.TypeMapping.PropertyMappers
 
             if (initalizer == null)
                 return null;
-            return destType.GetMethod(initalizer.Name);
+            return destType.GetRuntimeMethods().Where(x => x.Name == initalizer.Name).FirstOrDefault();
         }
     }
 }

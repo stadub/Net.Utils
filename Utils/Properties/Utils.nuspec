@@ -5,7 +5,7 @@
     <version>0.8.0</version>
     <authors>Dima Stadub</authors>
     <owners>Dima Stadub</owners>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>
     <projectUrl>https://github.com/stadub/Net.Utils</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/stadub/Net.Utils/master/favicon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

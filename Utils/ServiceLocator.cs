@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Serialization;
+using System.Reflection;
 using System.Threading;
 using Utils.TypeMapping.MappingInfo;
 using Utils.TypeMapping.TypeBuilders;
@@ -41,7 +41,7 @@ namespace Utils
             var interfaceType = typeof(TInterface);
             var classType = typeof(TClass);
 
-            if (interfaceType.IsGenericType || classType.IsGenericType)
+            if (interfaceType.GetTypeInfo().IsGenericType || classType.GetTypeInfo().IsGenericType)
                 throw new TypeNotSupportedException(interfaceType.FullName,"Generic Types cannot be registered by RegisterType registrationInfo registration");
             
             var key = GetKey(interfaceType, name);
@@ -225,7 +225,7 @@ namespace Utils
             registration.CreateBuildingContext();
             registration.InitBuildingContext();
             //value types have no default constructor and should be initalized by default value
-            if (ctor == null && registration.DestType.IsValueType)
+            if (ctor == null && registration.DestType.GetTypeInfo().IsValueType)
                 value = TypeHelpers.GetDefault(registration.DestType);
             else
             {
@@ -288,62 +288,49 @@ namespace Utils
     }
 
     #region ServiceLocatorExceptions
-    [Serializable]
     public class ServiceLocatorException : Exception
     {
         public String TypeName{get;set;}
         public ServiceLocatorException(String typeName) { TypeName = typeName; }
         public ServiceLocatorException(String typeName, string message) : base(message) { TypeName = typeName; }
         public ServiceLocatorException(String typeName, string message, Exception inner) : base(message, inner) { TypeName = typeName; }
-        protected ServiceLocatorException(SerializationInfo info,StreamingContext context): base(info, context) { }
     }
 
-    [Serializable]
     public class TypeNotResolvedException : ServiceLocatorException
     {
         public TypeNotResolvedException(String typeName) : base(typeName) { }
         public TypeNotResolvedException(String typeName, string message) : base(typeName, message) { }
         public TypeNotResolvedException(String typeName, string message, Exception inner) : base(typeName, message, inner) { }
-        protected TypeNotResolvedException(SerializationInfo info,StreamingContext context): base(info, context) { }
     }
     
-    [Serializable]
     public class TypeNotSupportedException : ServiceLocatorException
     {
         public TypeNotSupportedException(String typeName) : base(typeName) { }
         public TypeNotSupportedException(String typeName, string message) : base(typeName, message) { }
         public TypeNotSupportedException(String typeName, string message, Exception inner) : base(typeName, message, inner) { }
-        protected TypeNotSupportedException(SerializationInfo info,StreamingContext context): base(info, context) { }
     }
     
-    [Serializable]
     public class TypeInitalationException : TypeNotResolvedException
     {
         public TypeInitalationException(String typeName) : base(typeName) { }
         public TypeInitalationException(String typeName, string message) : base(typeName, message) { }
         public TypeInitalationException(String typeName, string message, Exception inner) : base(typeName, message, inner) { }
-        protected TypeInitalationException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
-    [Serializable]
     public class ConstructorNotResolvedException : ServiceLocatorException
     {
         public ConstructorNotResolvedException(String typeName) : base(typeName) { }
         public ConstructorNotResolvedException(String typeName, string message) : base(typeName, message) { }
         public ConstructorNotResolvedException(String typeName, string message, Exception inner) : base(typeName, message, inner) { }
-        protected ConstructorNotResolvedException(SerializationInfo info,StreamingContext context): base(info, context) { }
     }
 
-    [Serializable]
     public class TypeAllreadyRegisteredException : ServiceLocatorException
     {
         public TypeAllreadyRegisteredException(String typeName) : base(typeName) { }
         public TypeAllreadyRegisteredException(String typeName, string message) : base(typeName, message) { }
         public TypeAllreadyRegisteredException(String typeName, string message, Exception inner) : base(typeName, message, inner) { }
-        protected TypeAllreadyRegisteredException(SerializationInfo info,StreamingContext context): base(info, context) { }
     }
 
-    [Serializable]
     public class PropertyMappingException : TypeInitalationException
     {
         public string Property { get; private set; }
@@ -352,7 +339,6 @@ namespace Utils
 
         public PropertyMappingException(String typeName, String property, string message) : base(typeName, message) { Property = property; }
         public PropertyMappingException(String typeName, String property, string message, Exception inner) : base(typeName, message, inner) { Property = property; }
-        protected PropertyMappingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 #endregion
 }

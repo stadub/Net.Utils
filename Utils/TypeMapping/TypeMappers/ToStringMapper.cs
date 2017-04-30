@@ -7,6 +7,7 @@ namespace Utils.TypeMapping.TypeMappers
 
         public IOperationResult Map(ISourceInfo sourceInfo, Type destType)
         {
+
             if (!destType.IsAssignableFrom(typeof(string))) return OperationResult.Failed();
 
             return TryMap(sourceInfo) as IOperationResult<string>;

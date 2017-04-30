@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Utils.Helpers;
 
 namespace Utils.TypeMapping.TypeMappers
@@ -16,13 +17,13 @@ namespace Utils.TypeMapping.TypeMappers
 
         IOperationResult ITypeMapper.Map(object source, Type destType)
         {
-            Debugger.Assert(() => destType.IsAssignableFrom(typeof(TDest)), "Incorrect mapping DestType specified.");
+            Debugger.Assert(() => destType.GetTypeInfo().IsAssignableFrom(typeof(TDest).GetTypeInfo()), "Incorrect mapping DestType specified.");
             return (IOperationResult<object>)TryMap((TSource)source);
         }
 
         public bool CanMap(object source, Type destType)
         {
-            if (!destType.IsAssignableFrom(typeof(TDest))) return false;
+            if (!destType.GetTypeInfo().IsAssignableFrom(typeof(TDest).GetTypeInfo())) return false;
             if (!(source is TSource)) return false;
             return CanMap((TSource)source);
         }
