@@ -9,6 +9,24 @@
     <Message Text='Lib dir properties $(_LibOutDir_LibOutDir)' Importance="low"/>
 
   </Target>
+  <Target Name="SetNugetDir" BeforeTargets="AfterBuild"  DependsOnTargets="SetLibDir">
+    <PropertyGroup Condition="'$(_NugetOutDir)' == ''">
+      <_NugetOutDir>$(MSBuildProjectDirectory)\bin\nuget</_NugetOutDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(_NugetSourceDir)' == ''">
+      <_NugetSourceDir>$(_LibOutDir)</_NugetSourceDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(NuspecPath)' == ''">
+      <NuspecPath>$(MSBuildProjectDirectory)\Properties\$(ProjectName).nuspec</NuspecPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <NuGetExePath Include="$(MSBuildProjectDirectory)\..\packages\NuGet.CommandLine.*\**\*.exe"/>
+    </ItemGroup>
+
+    <Message Text='Nuget properties "Nuget $(_NugetOutDir) $(_NugetSourceDir) $(NuspecPath) @(NuGetExePath)' Importance="low"/>
+    <Message Text='Nuget Path @(NuGetExePath)' Importance="low"/>
+
+  </Target>
   
   <Target Name="CleanLibDir" BeforeTargets="AfterBuild" DependsOnTargets="SetLibDir">
     <Message Text='Clean "$(_LibOutDir)"' Importance="High"/>
@@ -44,24 +62,15 @@
     <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="@(NuGetExePath) pack $(NuspecPath) -BasePath $(MSBuildProjectDirectory) -OutputDirectory $(_NugetOutDir) -Symbols -Prop Configuration=$(Configuration)" />
   </Target>
 
-  <Target Name="SetNugetDir" BeforeTargets="AfterBuild"  DependsOnTargets="SetLibDir">
-    <PropertyGroup Condition="'$(_NugetOutDir)' == ''">
-      <_NugetOutDir>$(MSBuildProjectDirectory)\bin\nuget</_NugetOutDir>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(_NugetSourceDir)' == ''">
-      <_NugetSourceDir>$(_LibOutDir)</_NugetSourceDir>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(NuspecPath)' == ''">
-      <NuspecPath>$(MSBuildProjectDirectory)\Properties\$(ProjectName).nuspec</NuspecPath>
-    </PropertyGroup>
+
+
+  <Target Name="NugetPush" DependsOnTargets="SetNugetDir;CopyLicense;CopyOutToLib" BeforeTargets="AfterBuild" Condition="'$(PushNuget)' != ''">-->
+    <Message Text='Push nuget package $(_NugetOutDir)' Importance="High"/>
     <ItemGroup>
-      <NuGetExePath Include="$(MSBuildProjectDirectory)\..\packages\NuGet.CommandLine.*\**\*.exe"/>
+      <NuGetPackages Include="$(_NugetOutDir)\*.nupkg"/>
     </ItemGroup>
-
-    <Message Text='Nuget properties "Nuget $(_NugetOutDir) $(_NugetSourceDir) $(NuspecPath) @(NuGetExePath)' Importance="low"/>
-    <Message Text='Nuget Path @(NuGetExePath)' Importance="low"/>
-
+    <Message Text='Nuget properties $(NuspecPath) @(NuGetExePath)  @(NuGetPackages)' Importance="low"/>
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="@(NuGetExePath) push %(NuGetPackages.FullPath) -Source https://www.nuget.org/api/v2/package" />
   </Target>
-
 
 </Project>
