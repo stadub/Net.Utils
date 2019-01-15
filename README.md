@@ -22,6 +22,18 @@ ___
             var text = "1|2";
             var data = text.SplitString('|');
 ```
+	
+### *StringProperty.Trim* - Class level extension to perform more handy property trim.
+```C#
+	    class A{ string B {get;set;} }
+	    var a = new A();
+	    a.B= " text to trim ";
+	    //old fashion way
+	    a.b = a.B.Trim();
+            //The same with Trim extension
+            a.Trim( _ => _.B);
+```
+
 ___
 ### *ExceptionHelpers*
 ####     GetLastWin32Exception - WinAPI wrapper function to receive latest Win32 error
